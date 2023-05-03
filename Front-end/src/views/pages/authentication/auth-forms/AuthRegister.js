@@ -77,7 +77,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     const handleSubmit1 = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3001/users', { name, email, password })
+        axios.post('http://localhost:5000/signUp', { name, email, password })
           .then(response => {
             setUsers([...users, response.data]);
             window.alert('Registration successful');

@@ -56,8 +56,9 @@ module.exports.login = async (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
       // console.log(email);
-      const useremail = await SignUp.findOne({ $or: [{username: email}, {email: email}] });
-      console.log(useremail,"useremail");
+      const useremail = await SignUp.findOne({ email: email });
+      // const useremail = await SignUp.findOne({ $or: [{username: email}, {email: email}] });
+      // console.log(useremail,"useremail");
       const hPassword = await bcrypt.compare(password, useremail.password);
   
 

@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import { deepOrange } from '@mui/material/colors';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 
 // ===============================|| COLOR BOX ||=============================== //
 
@@ -81,6 +82,7 @@ const AccountSetting = () => (
                             </Box>
                         </MuiTypography>
                     </Grid>
+
                     <Grid item>
                         <Stack direction="row" spacing={1} justifyContent="center" alignItems="center"
                         sx={{
@@ -107,6 +109,71 @@ const AccountSetting = () => (
                                 width: "190px",
                              }}
                         >Submit</Button>
+                    </Grid>
+
+                </Grid>
+        </Grid>
+
+        <Divider sx={{ width: '100%', marginTop: '10px' }}  />
+
+        <Grid item xs={12} sm={12}>
+                <Grid container direction="flex" spacing={10}>
+                    <Grid item>
+                        <MuiTypography variant="button" display="block" gutterBottom>
+                          <h2>Change Password</h2>
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1, width: '52ch' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            >
+                                <TextField
+                                id="outlined-password-input"
+                                label="Old Pasword"
+                                type="password"
+                                autoComplete="current-password"
+                                />
+                            </Box>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '52ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <TextField
+                                id="outlined-password-input"
+                                label="New Password"
+                                type="password"
+                                autoComplete="current-password"
+                                />
+                            </Box>
+                            <Box
+                                component="form"
+                                sx={{
+                                    '& .MuiTextField-root': { m: 1, width: '52ch' },
+                                }}
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <TextField
+                                id="outlined-password-input"
+                                label="Confirm Password"
+                                type="password"
+                                autoComplete="current-password"
+                                />
+                            </Box>
+                            <Button variant="contained" 
+                                sx={{
+                                    marginTop: "20px",
+                                    marginLeft: "150px",
+                                    width: "190px",
+                                }}
+                            >Change Password</Button>
+                        </MuiTypography>
                     </Grid>
 
                 </Grid>

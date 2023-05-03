@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
+// import OtpInput from 'react-otp-input';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -26,6 +27,7 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { MuiOtpInput } from 'mui-one-time-password-input'
 
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
@@ -39,13 +41,20 @@ import Google from 'assets/images/icons/social-google.svg';
 import axios from 'axios';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
-const FirebaseLogin = ({ ...others }) => {
+const AuthForgotPassword = ({ ...others }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
     const [logindata, setLoginData] = useState('');
+    // const [otp, setOtp] = useState('');
+
+    const [value, setValues] = useState('')
+
+    const handleOtpChange = (newvalue) => {
+        setValues(newvalue)
+    }
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -71,21 +80,34 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
+
     const handleSubmit1 = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:5000/signUp/login', { email, password })
+        axios.post('http://localhost:5000/signUp/otpsend', { email })
           .then(response => {
-            window.alert('Login successful');
-            // console.log(response.data.data, "response.data");
-            localStorage.setItem('userData', JSON.stringify(response.data));
-            navigation('/dashboard/default');
-            // Store the user information in localStorage or Redux
+            window.alert('OTP Sent successful');
+             console.log(response.data.data.code, "response.data");
+             setLoginData(response.data.data.code);
           })
           .catch(error => {
             console.error(error);
             window.alert('Login failed');
           });
       };
+    //   console.log(logindata, 'logindata1');
+
+    const changePassword = () => {
+        // console.log(value, 'value')
+        // console.log(logindata, 'logindata');
+
+        if(value === logindata) {
+           window.alert('Set your New password');
+           navigation('/utils/util-Account_setting');
+        } else {
+            window.alert('OTP not match');
+            console.log("not match")
+        }
+    }
 
     return (
         <>
@@ -98,11 +120,6 @@ const FirebaseLogin = ({ ...others }) => {
                         }}
                     >
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} container alignItems="center" justifyContent="center">
-                    <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle1">Sign in with Email address</Typography>
                     </Box>
                 </Grid>
             </Grid>
@@ -136,7 +153,7 @@ const FirebaseLogin = ({ ...others }) => {
                 {({ errors, handleBlur, handleChange,handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit1} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
                             <OutlinedInput
                                 value={email}
                                 id="outlined-adornment-email-login"
@@ -144,7 +161,7 @@ const FirebaseLogin = ({ ...others }) => {
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleEmailChange}
-                                label="Email Address / Username"
+                                label="Email Address"
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (
@@ -153,69 +170,11 @@ const FirebaseLogin = ({ ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-
-                        <FormControl
-                            fullWidth
-                            error={Boolean(touched.password && errors.password)}
-                            sx={{ ...theme.typography.customInput }}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password-login"
-                                type={showPassword ? 'text' : 'password'}
-                                value={password}
-                                name="password"
-                                onBlur={handleBlur}
-                                onChange={handlePasswordChange}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            size="large"
-                                        >
-                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                                inputProps={{}}
-                            />
-                            {touched.password && errors.password && (
-                                <FormHelperText error id="standard-weight-helper-text-password-login">
-                                    {errors.password}
-                                </FormHelperText>
-                            )}
-                        </FormControl>
-                        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={checked}
-                                        onChange={(event) => setChecked(event.target.checked)}
-                                        name="checked"
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
-                            <Typography
-                             component={Link}
-                             to="/pages/forget-password" 
-                             variant="subtitle1" 
-                             color="secondary" 
-                             sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                                Forgot Password?
-                            </Typography>
-                        </Stack>
-                        {errors.submit && (
-                            <Box sx={{ mt: 3 }}>
-                                <FormHelperText error>{errors.submit}</FormHelperText>
-                            </Box>
-                        )}
-
+                        <MuiOtpInput 
+                            sx={{ m: 2, ml: 5, width: '80%' }}
+                            length={4} 
+                            value={value} 
+                            onChange={handleOtpChange} />
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <Button
@@ -227,15 +186,26 @@ const FirebaseLogin = ({ ...others }) => {
                                     variant="contained"
                                     color="secondary"
                                 >
-                                    Sign in
+                                   Forget Password
                                 </Button>
                             </AnimateButton>
                         </Box>
                     </form>
                 )}
             </Formik>
+                <Button
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    size="large"
+                    type='submit'
+                    variant="contained"
+                    color="secondary"
+                    onClick={changePassword}
+                >
+                    Check OTP
+                </Button>
         </>
     );
 };
 
-export default FirebaseLogin;
+export default AuthForgotPassword;
