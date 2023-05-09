@@ -14,6 +14,7 @@ const hbs = require('nodemailer-express-handlebars')
 const handlebars = require('handlebars');
 const path = require('path');
 const cron = require('node-cron')
+const multer = require('multer');
 
 module.exports.registration = async (req, res) => {
   try {
@@ -211,7 +212,6 @@ module.exports.resetPassword = async (req, res) => {
   }
 }
 
-
 cron.schedule('* * * * * * *', async () => {
   try {
     const checkOtp = await otp.find()
@@ -231,3 +231,95 @@ cron.schedule('* * * * * * *', async () => {
   }
 
 })
+
+const upload = multer({ dest: 'uploads/' }); // Set the destination folder for uploaded files
+
+// change password
+
+module.exports.changePassword = async (req, res) => {
+  try {
+    const user = await SignUp.findOne({ email: req.body.email });
+    if (!user) {
+      return res.send({
+        status: 400,
+        message: "User not found",
+      });
+    }
+    const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!isMatch) {
+      return res.send({
+        status: 400,
+        message: "Incorrect password",
+      });
+    }
+    user.password = await bcrypt.hash(req.body.newPassword, 10);
+    await user.save();
+    res.status(200).send({
+      message: "Password updated successfully",
+      status: 200,
+      data: user,
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const Terms = require('../models/Terms_Conditions');
+
+module.exports.addNewTermsAndCondData = async (req, res) => {
+  try {
+    const newData = new Terms({
+      // Extract the required data from the request body and create a new document with it
+      title: req.body.title,
+      description: req.body.description,
+      // add any other fields you need here
+    });
+
+    // Save the new document to the database
+    const result = await newData.save();
+
+    res.status(201).send({
+      message: 'New data added successfully',
+      status: 201,
+      data: result,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+
+module.exports.getAllData = async (req, res) => {
+  try {
+    const data = await Terms.find();
+
+    res.status(200).send({
+      message: 'Data retrieved successfully',
+      status: 200,
+      data: data,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+
+
+
+
+
+
+// Set up middleware to handle file uploads
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded successfully');
+});

@@ -42,7 +42,7 @@ const utilities = {
         },
         {
             id: 'User-Profile',
-            title: 'User-Profile',
+            title: 'terms & conditions',
             type: 'item',
             url: '/utils/util-User_profile',
             icon: icons.IconPalette,

@@ -81,8 +81,7 @@ const AuthForgotPassword = ({ ...others }) => {
     };
 
 
-    const handleSubmit1 = (event) => {
-        event.preventDefault();
+    const handleSubmit1 = ( {email} ) => {
         axios.post('http://localhost:5000/signUp/otpsend', { email })
           .then(response => {
             window.alert('OTP Sent successful');
@@ -96,7 +95,7 @@ const AuthForgotPassword = ({ ...others }) => {
       };
     //   console.log(logindata, 'logindata1');
 
-    const changePassword = () => {
+    const changePassword = ({value, logindata}) => {
         // console.log(value, 'value')
         // console.log(logindata, 'logindata');
 
@@ -105,7 +104,7 @@ const AuthForgotPassword = ({ ...others }) => {
            navigation('/utils/util-Account_setting');
         } else {
             window.alert('OTP not match');
-            console.log("not match")
+            console.log("not match");
         }
     }
 

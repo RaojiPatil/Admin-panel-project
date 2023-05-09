@@ -23,9 +23,10 @@ router.post("/login",registration.login);
 router.post("/otpsend",registration.otpSend);
 router.post("/resetpassword/:id",registration.resetPassword);
 router.post("/checkOtp/:id",registration.checkOtp);
-
-
+router.post("/changepassword",registration.changePassword);
+// router.post("/verifyPassword",registration.verifyPassword);
 // router.get("/", getRegisterData.getRegisterData);
-
+router.post("/addNewTermsAndCondData",registration.addNewTermsAndCondData);
+router.get("/getAllData",registration.getAllData);
 
 module.exports=router;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import MuiTypography from '@mui/material/Typography';
 // material-ui
 import { Box, Card, Grid, Typography } from '@mui/material';
-
+import {useState} from 'react';
 // project imports
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
@@ -14,14 +14,36 @@ import Stack from '@mui/material/Stack';
 import { deepOrange } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import axios from 'axios';
 
-// ===============================|| COLOR BOX ||=============================== //
+function AccountSetting() {
+    
+  const [email, setEmail] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('hii');
+    try {
+        console.log('hii111');
+      const response = await axios.post("http://localhost:5000/signUp/changepassword", { email, oldPassword, newPassword });
 
-
-// ===============================|| UI COLOR ||=============================== //
-
-const AccountSetting = () => (
+      if (response.data.status === 200 ) {
+        console.log(response.data);
+        window.alert("Password Update Successfully")
+        // handle success response
+      } else {
+        console.log('Response data is empty.');
+        window.alert("Password Not Updated")
+      }
+    } catch (error) {
+      console.log("error", error.response.data);
+      // handle error response
+    }
+  };
+    
+    return (
     <MainCard title="Account-Setting" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
     <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={12}>
@@ -116,11 +138,27 @@ const AccountSetting = () => (
 
         <Divider sx={{ width: '100%', marginTop: '10px' }}  />
 
-        <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={12}>
                 <Grid container direction="flex" spacing={10}>
                     <Grid item>
                         <MuiTypography variant="button" display="block" gutterBottom>
                           <h2>Change Password</h2>
+                          <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 1, width: '52ch' },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                            >
+                                <TextField
+                                id="outlined-password-input"
+                                label="Email"
+                                type="Email"
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)} 
+                                />
+                            </Box>
                         <Box
                             component="form"
                             sx={{
@@ -132,8 +170,10 @@ const AccountSetting = () => (
                                 <TextField
                                 id="outlined-password-input"
                                 label="Old Pasword"
-                                type="password"
+                                type="email" 
                                 autoComplete="current-password"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
                                 />
                             </Box>
                             <Box
@@ -149,9 +189,11 @@ const AccountSetting = () => (
                                 label="New Password"
                                 type="password"
                                 autoComplete="current-password"
+                                value={newPassword} 
+                                onChange={(e) => setNewPassword(e.target.value)}
                                 />
                             </Box>
-                            <Box
+                            {/* <Box
                                 component="form"
                                 sx={{
                                     '& .MuiTextField-root': { m: 1, width: '52ch' },
@@ -165,21 +207,23 @@ const AccountSetting = () => (
                                 type="password"
                                 autoComplete="current-password"
                                 />
-                            </Box>
+                            </Box> */}
                             <Button variant="contained" 
                                 sx={{
                                     marginTop: "20px",
                                     marginLeft: "150px",
                                     width: "190px",
                                 }}
+                                onClick={handleSubmit}
                             >Change Password</Button>
                         </MuiTypography>
                     </Grid>
 
                 </Grid>
+            </Grid>
         </Grid>
-    </Grid>
-</MainCard>
-);
+    </MainCard>
+    );
+}
 
 export default AccountSetting;
