@@ -314,6 +314,58 @@ module.exports.getAllData = async (req, res) => {
 };
 
 
+module.exports.deleteTerm = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const term = await Terms.findByIdAndDelete(id);
+    if (!term) {
+      return res.status(404).send({
+        message: 'Term not found',
+        status: 404,
+      });
+    }
+    res.status(200).send({
+      message: 'Term deleted successfully',
+      status: 200,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+module.exports.updateTermsAndCondData = async (req, res) => {
+  try {
+    // Extract the required data from the request body
+    const { id, title, description } = req.body;
+
+    // Find the document by ID and update it with the new data
+    const result = await Terms.findByIdAndUpdate(
+      id,
+      { title, description },
+      { new: true }
+    );
+
+    res.status(200).send({
+      message: 'Data updated successfully',
+      status: 200,
+      data: result,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+
 
 
 

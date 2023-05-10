@@ -48,6 +48,15 @@ const utilities = {
             icon: icons.IconPalette,
             breadcrumbs: false
         },
+        //  {
+        //     id: 'TermsView',
+        //     title: 'terms Data View',
+        //     type: 'item',
+        //     url: '/utils/util-User_profile_view',
+        //     icon: icons.IconPalette,
+        //     breadcrumbs: false
+        // },
+  
     ]
 };
 

@@ -11,6 +11,7 @@ const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const AccountSetting = Loadable(lazy(() => import('views/utilities/Account_setting')));
 const UserProfile = Loadable(lazy(() => import('views/utilities/User_profile')));
+const UserProfileData = Loadable(lazy(() => import('views/utilities/TermsDataView')));
 
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
@@ -71,6 +72,15 @@ const MainRoutes = {
                 {
                     path: 'util-User_profile',
                     element: <UserProfile />
+                }
+            ]
+        },
+        {
+            path: 'utils',
+            children: [
+                {
+                    path: 'util-User_profile_view',
+                    element: <UserProfileData />
                 }
             ]
         },

@@ -11,10 +11,9 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTypography from '@mui/material/Typography';
 import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
+import { Edit } from '@mui/icons-material';
 
-
-
-export default function AddTermsAndConditions() {
+export default function UpdateTermsAndConditions({id}) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -27,32 +26,37 @@ export default function AddTermsAndConditions() {
     setOpen(false);
   };
 
-    const handleSubmit = () => {
-      axios
-        .post('http://localhost:5000/signUp/addNewTermsAndCondData', { title, description })
-        .then((response) => {
-          console.log(response.data); // Log the response from the server
-          handleClose(); // Close the dialog box
-          window.location.reload(true);
-        })
-        .catch((error) => {
-          console.error(error); // Log any errors that occur
-        });
-    };
-
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.put('http://localhost:5000/signUp/updateTermsAndCondData', {
+        _id: id,
+        title,
+        description,
+      });
+      console.log(response.data);
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
-      <IconButton sx={{ bgcolor: '#1769aa', marginRight: '40px' }} aria-label="add" onClick={handleClickOpen}>
-        <AddIcon color="primary" />
+      <IconButton aria-label="edit" onClick={handleClickOpen}>
+        <Edit color="primary" />
       </IconButton>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
         <Grid item xs={12} sm={12}>
           <Grid container direction="flex" spacing={10} sx={{ padding: 5 }}>
             <Grid item>
               <MuiTypography variant="button" display="block" gutterBottom>
                 <Typography variant="h3" sx={{ margin: 2 }}>
-                  Add New terms and conditions
+                  Update terms and conditions
                 </Typography>
                 <Box
                   component="form"
@@ -62,7 +66,13 @@ export default function AddTermsAndConditions() {
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField id="title" label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                  <TextField
+                    id="title"
+                    label="Title"
+                    type="text"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
+                  />
                 </Box>
                 <Box
                   component="form"
@@ -80,7 +90,7 @@ export default function AddTermsAndConditions() {
                     multiline
                     rows={4}
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(event) => setDescription(event.target.value)}
                   />
                 </Box>
 
@@ -93,7 +103,7 @@ export default function AddTermsAndConditions() {
                   }}
                   onClick={handleSubmit}
                 >
-                  Add New Terms
+                  Update New Terms
                 </Button>
               </MuiTypography>
             </Grid>
