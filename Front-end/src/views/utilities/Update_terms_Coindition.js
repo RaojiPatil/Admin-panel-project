@@ -13,43 +13,54 @@ import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { Edit } from '@mui/icons-material';
 
-export default function UpdateTermsAndConditions({id}) {
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+export default function UpdateTermsAndConditions({ open, setOpen, userid}) {
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [termstitle, setTitle] = useState( userid.title );
+  const [termsdescription, setDescription] = useState(userid.description);
+  const [state, setState] = useState('');
+  const [opens, setOpens] = useState(open);
+
+  const handleClickOpen = (value) => {
+    setState(value)
+  }
 
   const handleClose = () => {
-    setOpen(false);
+    setOpens(false);
   };
 
-  const handleSubmit = async () => {
+
+  const handleSubmit = async (id) => {
+
+    const payload = {
+      id: userid?._id,
+      title: termstitle,
+      description: termsdescription
+    };
+
     try {
-      const response = await axios.put('http://localhost:5000/signUp/updateTermsAndCondData', {
-        _id: id,
-        title,
-        description,
-      });
+      const response = await axios.put(`http://localhost:5000/signUp/updateTermsAndCondData`, payload );
       console.log(response.data);
       handleClose();
+      window.location.reload(true);
     } catch (error) {
       console.error(error);
     }
   };
 
+
+   useEffect (() => {
+    console.log(userid, "userid");
+    // handleSubmit();
+   }, []);
+
   return (
     <div>
-      <IconButton aria-label="edit" onClick={handleClickOpen}>
-        <Edit color="primary" />
-      </IconButton>
       <Dialog
-        open={open}
+        open={opens}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+
       >
         <Grid item xs={12} sm={12}>
           <Grid container direction="flex" spacing={10} sx={{ padding: 5 }}>
@@ -70,7 +81,7 @@ export default function UpdateTermsAndConditions({id}) {
                     id="title"
                     label="Title"
                     type="text"
-                    value={title}
+                    value={termstitle}
                     onChange={(event) => setTitle(event.target.value)}
                   />
                 </Box>
@@ -89,7 +100,7 @@ export default function UpdateTermsAndConditions({id}) {
                     autoComplete="current-password"
                     multiline
                     rows={4}
-                    value={description}
+                    value={termsdescription}
                     onChange={(event) => setDescription(event.target.value)}
                   />
                 </Box>

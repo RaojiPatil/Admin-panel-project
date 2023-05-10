@@ -23,9 +23,12 @@ import UpdateTermsAndConditions from './Update_terms_Coindition';
 const UserProfile = () => {
   const [rows, setRows] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
-  const [users, setUsers] = useState(usersData);
-  const [editing, setEditing] = useState(false);
-  const [currentUser, setCurrentUser] = useState(initialFormState);
+  const [users, setUsers] = useState();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (value) => {
+      setOpen(true)
+  };
 
 
   useEffect(() => {
@@ -43,7 +46,10 @@ const UserProfile = () => {
     fetchData();
   }, []);
 
-
+  const handleButtonClick = (value) => {
+    // call the handleStateChange function in PageB
+   
+  };
 
   const handleDeleteData = async (id) => {
     try {
@@ -60,18 +66,6 @@ const UserProfile = () => {
     }
   };
 
-  // const fetchUpdateData = async (id) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/signUp/updateTermsAndCondData/${id}`);
-  //     const data = await response.json();
-  //     console.log(data.data);
-  //     setUpdateData(data.data);
-  //     setShowUpdateForm(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
 
 
 
@@ -79,9 +73,8 @@ const UserProfile = () => {
     window.location.href = '/utils/util-User_profile_view';
   };
 
-  const updateUser = (id, updatedUser) => {
-     setEditing(false);
-    setUsers(users.map(user => (user.id === id ? updatedUser : user)));
+  const updateUser = (row) => {
+       setOpen(true)
   };
 
 
@@ -107,8 +100,13 @@ const UserProfile = () => {
                   <IconButton aria-label="view" color="secondary" onClick={() => handleView(row)}>
                     <Visibility />
                   </IconButton>
-                  <IconButton aria-label="edit" color="primary" onClick={() => updateUser(row._id)}>
-                    <UpdateTermsAndConditions />
+                  <IconButton aria-label="edit" color="primary" onClick={() => updateUser(row)}>
+                   <Edit color="primary" />
+                     { open && <UpdateTermsAndConditions
+                    userid={row}
+                    open={open}
+                    setOpen={setOpen}
+                    /> }
                   </IconButton>
                   <IconButton aria-label="delete" color="secondary" onClick={() => handleDeleteData(row._id)}>
                     <Delete />
