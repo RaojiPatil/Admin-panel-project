@@ -320,12 +320,12 @@ module.exports.deleteTerm = async (req, res) => {
     const term = await Terms.findByIdAndDelete(id);
     if (!term) {
       return res.status(404).send({
-        message: 'Term not found',
+        message: 'Terms data found',
         status: 404,
       });
     }
     res.status(200).send({
-      message: 'Term deleted successfully',
+      message: 'Get data successfully',
       status: 200,
     });
   } catch (e) {
@@ -337,6 +337,34 @@ module.exports.deleteTerm = async (req, res) => {
     });
   }
 };
+
+
+
+module.exports.ViewTerms = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Terms.findById(id);
+    if (!data) {
+      return res.status(404).send({
+        message: 'Term not found',
+        status: 404,
+      });
+    }
+    res.status(200).send({
+      message: 'Term deleted successfully',
+      status: 200,
+      data: data
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
 
 module.exports.updateTermsAndCondData = async (req, res) => {
   try {
@@ -364,9 +392,6 @@ module.exports.updateTermsAndCondData = async (req, res) => {
     });
   }
 };
-
-
-
 
 
 

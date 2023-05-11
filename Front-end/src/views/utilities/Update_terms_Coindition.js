@@ -20,12 +20,10 @@ export default function UpdateTermsAndConditions({ open, setOpen, userid}) {
   const [state, setState] = useState('');
   const [opens, setOpens] = useState(open);
 
-  const handleClickOpen = (value) => {
-    setState(value)
-  }
 
   const handleClose = () => {
     setOpens(false);
+    window.location.reload(true);
   };
 
 
@@ -49,7 +47,7 @@ export default function UpdateTermsAndConditions({ open, setOpen, userid}) {
 
 
    useEffect (() => {
-    console.log(userid, "userid");
+    // console.log(userid, "userid");
     // handleSubmit();
    }, []);
 
@@ -60,7 +58,6 @@ export default function UpdateTermsAndConditions({ open, setOpen, userid}) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-
       >
         <Grid item xs={12} sm={12}>
           <Grid container direction="flex" spacing={10} sx={{ padding: 5 }}>

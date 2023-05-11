@@ -29,6 +29,7 @@ router.post("/changepassword",registration.changePassword);
 router.post("/addNewTermsAndCondData",registration.addNewTermsAndCondData);
 router.get("/getAllData",registration.getAllData);
 router.delete('/termsdelete/:id', registration.deleteTerm);
+router.get('/viewTerms/:id', registration.ViewTerms);
 router.put('/updateTermsAndCondData', registration.updateTermsAndCondData);
 
 
