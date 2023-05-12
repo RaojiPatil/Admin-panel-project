@@ -14,47 +14,62 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const id = urlParams.get('id'); 
-
 const ViewData = () => {
-
+    const [data, setData] = useState({title: '', description: ''});
 
     const handleSubmit = async () => {
-        
-    const searchParams = new URLSearchParams(window.location.search);
-    const Dataid = searchParams.get('data');
-    const decodedId = decodeURIComponent(Dataid);
-        try {
-          const response = await axios.get(`http://localhost:5000/signUp/viewTerms?id=${decodedId}`);
-          console.log(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    
-    
-      useEffect(() => {
-        handleSubmit();
-      }, []);
 
-    return(
-    <MainCard title="Terms Data" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
-    <Grid container spacing={gridSpacing}>
-        <Grid item xs={12} sm={6}>
-            <SubCard title="Club">
-                <Grid container direction="column" spacing={1}>
-                    <Grid item>
-                        <MuiTypography variant="button" display="block" gutterBottom>
-                            Terms Data
-                        </MuiTypography>
-                    </Grid>
+        const searchParams = new URLSearchParams(window.location.search);
+        const Dataid = searchParams.get('data');
+        const Id = decodeURIComponent(Dataid);
+
+        try {
+            const response = await axios.get(`http://localhost:5000/signUp/viewTerms/${Id}`);
+            setData(response.data.data);
+            console.log(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        handleSubmit();
+    }, []);
+
+
+
+    return (
+        <>
+        <MainCard title="Terms Data" secondary={<SecondaryAction />}>
+            <Grid container spacing={gridSpacing}>
+                <Grid item xs={12} sm={6}>
+                    <SubCard title="Terms Title">
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <MuiTypography variant="button" display="block" gutterBottom>
+                                    {data.title}
+                                </MuiTypography>
+                            </Grid>
+                        </Grid>
+                    </SubCard>
                 </Grid>
-            </SubCard>
-        </Grid>
-    </Grid>
-    </MainCard>
+            </Grid>
+            <Grid container spacing={gridSpacing}>
+             <Grid item xs={12} sm={6}>
+                 <SubCard title="Description">
+                     <Grid container direction="column" spacing={1}>
+                         <Grid item>
+                             <MuiTypography variant="body1" display="block" gutterBottom>
+                                 {data.description}
+                             </MuiTypography>
+                         </Grid>
+                     </Grid>
+                 </SubCard>
+             </Grid>
+         </Grid>
+        </MainCard>
+        
+     </>
     );
 };
 

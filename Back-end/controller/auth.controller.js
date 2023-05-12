@@ -232,7 +232,7 @@ cron.schedule('* * * * * * *', async () => {
 
 })
 
-const upload = multer({ dest: 'uploads/' }); // Set the destination folder for uploaded files
+// const upload = multer({ dest: 'uploads/' }); // Set the destination folder for uploaded files
 
 // change password
 
@@ -292,6 +292,7 @@ module.exports.addNewTermsAndCondData = async (req, res) => {
     });
   }
 };
+
 
 
 module.exports.getAllData = async (req, res) => {
@@ -396,7 +397,32 @@ module.exports.updateTermsAndCondData = async (req, res) => {
 
 
 
+// Example API endpoint for file upload
+module.exports.uploadfile = async (req, res) => {
+// app.post('/api/upload', upload.single('file'), (req, res, next) => {
+  try {
+    // Access the uploaded file using req.file
+    // You can then save the file to the database or perform other operations on it
+    console.log(req.body.file);
+    const data = await Terms.create(req.body)
+    res.status(201).send({
+      message: 'File uploaded successfully',
+      status: 201,
+      data: data
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+
+
 // Set up middleware to handle file uploads
-app.post('/upload', upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully');
-});
+// app.post('/upload', upload.single('file'), (req, res) => {
+//   res.send('File uploaded successfully');
+// });

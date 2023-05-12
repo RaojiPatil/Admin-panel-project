@@ -71,9 +71,9 @@ const UserProfile = () => {
   };
 
   const handleView = async (row) => {
-    // console.log(row, "rows");
     setViewRow(row);
-    window.location.href = `/utils/util-User_profile_view?data=${encodeURIComponent(JSON.stringify(row))}`;
+    const dataid = row;
+    window.location.href = `/utils/util-User_profile_view?data=${dataid}`;
   };
 
   const handlePageChange = (event, value) => {

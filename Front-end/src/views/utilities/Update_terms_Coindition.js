@@ -20,6 +20,7 @@ export default function UpdateTermsAndConditions({ open, setOpen, userid}) {
   const [state, setState] = useState('');
   const [opens, setOpens] = useState(open);
 
+  console.log("userid". userid);
 
   const handleClose = () => {
     setOpens(false);

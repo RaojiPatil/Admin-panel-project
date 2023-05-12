@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTypography from '@mui/material/Typography';
 import { Box, Typography } from '@mui/material';
 import { useEffect } from 'react';
-
+import { Input } from '@mui/material';
 
 
 export default function AddTermsAndConditions() {
@@ -83,6 +83,10 @@ export default function AddTermsAndConditions() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </Box>
+                   <input
+                    type="file"
+
+                  />
 
                 <Button
                   variant="contained"
