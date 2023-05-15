@@ -21,6 +21,10 @@ function AccountSetting() {
   const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [file, setFile] = useState(null);
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [mobile, setMobile] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +46,18 @@ function AccountSetting() {
       // handle error response
     }
   };
+
+  const handleUpload = async () => {
+    console.log("hi");
+    axios
+      .post('http://localhost:5000/signUp/uploadfile', { fname, lname, email, mobile, file })
+      .then((response) => {
+        console.log(response.data); // Log the response from the server
+      })
+      .catch((error) => {
+        console.error(error); // Log any errors that occur
+      });
+  };
     
     return (
     <MainCard title="Account-Setting" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
@@ -62,14 +78,18 @@ function AccountSetting() {
                                 <TextField
                                 id="outlined-password-input"
                                 label="First Name"
-                                type="password"
-                                autoComplete="current-password"
+                                type="text"
+                                autoComplete="firstname"
+                                value={fname}
+                                onChange={(e) => setFname(e.target.value)}
                                 />
                                 <TextField
                                 id="outlined-password-input"
                                 label="LastName"
-                                type="password"
-                                autoComplete="current-password"
+                                type="text"
+                                autoComplete="lastname"
+                                value={lname}
+                                onChange={(e) => setLname(e.target.value)}
                                 />
                         </Box>
                         <Box
@@ -83,8 +103,9 @@ function AccountSetting() {
                                 <TextField
                                 id="outlined-password-input"
                                 label="Email"
-                                type="password"
-                                autoComplete="current-password"
+                                type="email"
+                                autoComplete="email"
+                                onChange={(e) => setEmail(e.target.value)}
                                 />
                             </Box>
                             <Box
@@ -97,11 +118,19 @@ function AccountSetting() {
                             >
                                 <TextField
                                 id="outlined-password-input"
-                                label="Password"
-                                type="password"
-                                autoComplete="current-password"
+                                label="Mobile Number"
+                                type="number"
+                                autoComplete="number"
+                                value={mobile}
+                                onChange={(e) => setMobile(e.target.value)}
                                 />
                             </Box>
+                             <input
+                                id='file'
+                                type='file'
+                                value={file}
+                                onChange={(e) => setFile(e.target.value)}
+                                />
                         </MuiTypography>
                     </Grid>
 
@@ -124,12 +153,15 @@ function AccountSetting() {
                             }}
                             />
                         </Stack>
-                        <Button variant="contained" 
+                        <Button 
+                        variant="contained" 
+                        onClick={handleUpload}
                             sx={{
                                 marginTop: "20px",
                                 marginLeft: "150px",
                                 width: "190px",
                              }}
+                             
                         >Submit</Button>
                     </Grid>
 

@@ -3,11 +3,27 @@ const mongoose=require("mongoose");
 const TermsSchema=new mongoose.Schema({
   title:{
     type:String,
-    required:true,
+    required:false,
   },
   description:{
     type:String,
-    required:true
+    required:false,
+  },
+  fname:{
+    type:String,
+    required:false,
+  },
+  lname:{
+    type:String,
+    required:false,
+  },
+  email:{
+    type:String,
+    required:false,
+  },
+  mobile:{
+    type:Number,
+    required:false
   },
   file:{
     type:String,

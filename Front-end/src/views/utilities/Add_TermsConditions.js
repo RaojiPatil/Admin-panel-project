@@ -18,6 +18,7 @@ export default function AddTermsAndConditions() {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [file, setFile] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,7 +34,7 @@ export default function AddTermsAndConditions() {
         .then((response) => {
           console.log(response.data); // Log the response from the server
           handleClose(); // Close the dialog box
-          window.location.reload(true);
+           window.location.reload(true);
         })
         .catch((error) => {
           console.error(error); // Log any errors that occur
@@ -83,10 +84,12 @@ export default function AddTermsAndConditions() {
                     onChange={(e) => setDescription(e.target.value)}
                   />
                 </Box>
-                   <input
-                    type="file"
-
-                  />
+                {/* <input
+                  id='file'
+                  type='file'
+                  value={file}
+                  onChange={(e) => setFile(e.target.value)}
+                /> */}
 
                 <Button
                   variant="contained"
