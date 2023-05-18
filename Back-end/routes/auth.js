@@ -64,4 +64,8 @@ router.get('/viewTerms/:id', registration.ViewTerms);
 router.put('/updateTermsAndCondData', registration.updateTermsAndCondData);
 router.post('/uploadfile',upload.single('file'), registration.uploadfile);
 
+// Agents Routes
+router.post('/agent', registration.addNewAgent);
+router.get('/getagent', registration.getAgentData);
+
 module.exports=router;

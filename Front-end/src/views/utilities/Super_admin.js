@@ -10,7 +10,7 @@ import { gridSpacing } from 'store/constant';
 // ==============================|| TYPOGRAPHY ||============================== //
 
 const Typography = () => (
-    <MainCard title="AGENT PANEL" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
+    <MainCard title="Super-Admin" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12} sm={6}>
                 <SubCard title="Agent">

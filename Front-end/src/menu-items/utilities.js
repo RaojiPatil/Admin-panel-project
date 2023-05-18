@@ -1,5 +1,9 @@
 // assets
 import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons';
+import { isUserLoggedIn } from 'comman/comman';
+import { useEffect } from 'react';
+
+
 
 // constant
 const icons = {
@@ -11,27 +15,53 @@ const icons = {
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
+var user = "";
+const userData = JSON.parse(localStorage.getItem('userData'));
+
+
+if(userData) {
+    if(userData.data.role == 'Manager') {
+        user = 'Manager'
+    } else if(userData.data.role == 'Agent') {
+        user = 'Agent'
+    } else if(userData.data.role == 'Super-Admin') {
+        user = 'SuperAdmin'
+    }
+}     
+
+
 const utilities = {
     id: 'utilities',
     title: 'Agents',
     type: 'group',
     children: [
+        user == 'SuperAdmin' ?
         {
-            id: 'util-typography',
-            title: 'Super-Agent',
+            id: 'util-Super-Admin',
+            title: 'Super-Admin',
             type: 'item',
-            url: '/utils/util-typography',
+            url: '/utils/util-superadmin',
             icon: icons.IconTypography,
             breadcrumbs: false
-        },
+        }: "",
+        user == 'Manager' || user == 'SuperAdmin' ?
         {
-            id: 'util-color',
-            title: 'Club-Agent',
+            id: 'util-Manager',
+            title: 'Manager-Panel',
             type: 'item',
-            url: '/utils/util-color',
+            url: '/utils/util-manager',
             icon: icons.IconPalette,
             breadcrumbs: false
-        }, 
+        }: "",
+        user == 'Agent' || user == 'SuperAdmin' ?
+        {
+            id: 'util-Agent',
+            title: 'Agent-panel',
+            type: 'item',
+            url: '/utils/util-agent',
+            icon: icons.IconPalette,
+            breadcrumbs: false
+        }: '',
         {
             id: 'Account-Setting',
             title: 'Account-Setting',

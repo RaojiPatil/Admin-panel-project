@@ -8,59 +8,75 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
+var user = "";
+const userData = JSON.parse(localStorage.getItem('userData'));
+
+if(userData) {
+   if(userData.data.role == 'Manager') {
+    user = 'Manager'
+   } else if(userData.data.role == 'Agent') {
+    user = 'Agent'
+   } else if(userData.data.role == 'Super-Admin') {
+    user = 'SuperAdmin'
+   }
+}
+
 
 const pages = {
     id: 'pages',
     title: 'Pages',
     type: 'group',
     children: [
+      user == "SuperAdmin" ? 
+      {
+        id: 'super_admin',
+        title: 'Super-Admin',
+        type: 'collapse',
+        icon: icons.IconKey,
+        children: [
+          {
+            id: 'login3',
+            title: 'Login',
+            type: 'item',
+            url: '/pages/login/login3',
+            target: true
+          },
+          {
+            id: 'register3',
+            title: 'Register',
+            type: 'item',
+            url: '/pages/register/register3',
+            target: true
+          }
+        ]
+      }: "",
+      user == "Manager" ||  user == "SuperAdmin" ?
+      {
+        id: 'manager',
+        title: 'Manager',
+        type: 'collapse',
+        icon: icons.IconKey,
+        children: [
+          {
+            id: 'login3',
+            title: 'Login',
+            type: 'item',
+            url: '/pages/login/login3',
+            target: true
+          },
+          {
+            id: 'register3',
+            title: 'Register',
+            type: 'item',
+            url: '/pages/register/register3',
+            target: true
+          }
+        ]
+      }: "",
+      user == "Agent" ||  user == "SuperAdmin" ?
       {
         id: 'agent',
         title: 'Agent',
-        type: 'collapse',
-        icon: icons.IconKey,
-        children: [
-          {
-            id: 'login3',
-            title: 'Login',
-            type: 'item',
-            url: '/pages/login/login3',
-            target: true
-          },
-          {
-            id: 'register3',
-            title: 'Register',
-            type: 'item',
-            url: '/pages/register/register3',
-            target: true
-          }
-        ]
-      },
-      {
-        id: 'authentication',
-        title: 'Club',
-        type: 'collapse',
-        icon: icons.IconKey,
-        children: [
-          {
-            id: 'login3',
-            title: 'Login',
-            type: 'item',
-            url: '/pages/login/login3',
-            target: true
-          },
-          {
-            id: 'register3',
-            title: 'Register',
-            type: 'item',
-            url: '/pages/register/register3',
-            target: true
-          }
-        ]
-      },
-      {
-        id: 'authentication',
-        title: 'Managment',
         type: 'collapse',
         icon: icons.IconKey,
         children: [
@@ -79,29 +95,29 @@ const pages = {
             target: true
           }
         ]
+      }: "",
+      {
+        id: 'agent',
+        title: 'LogIn/SignUp',
+        type: 'collapse',
+        icon: icons.IconKey,
+        children: [
+          {
+            id: 'login3',
+            title: 'Login',
+            type: 'item',
+            url: '/pages/login/login3',
+            target: true
+          },
+          {
+            id: 'register3',
+            title: 'Register',
+            type: 'item',
+            url: '/pages/register/register3',
+            target: true
+          }
+        ]
       },
-    //   {
-    //     id: 'authentication',
-    //     title: 'Authentication',
-    //     type: 'collapse',
-    //     icon: icons.IconKey,
-    //     children: [
-    //       {
-    //         id: 'login3',
-    //         title: 'Login',
-    //         type: 'item',
-    //         url: '/pages/login/login3',
-    //         target: true
-    //       },
-    //       {
-    //         id: 'register3',
-    //         title: 'Register',
-    //         type: 'item',
-    //         url: '/pages/register/register3',
-    //         target: true
-    //       }
-    //     ]
-    //   }
     ]
   };
   

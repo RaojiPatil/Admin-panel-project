@@ -173,7 +173,7 @@ const ProfileSection = () => {
                                                    {userData.data.name}
                                                 </Typography>
                                             </Stack>
-                                            <Typography variant="subtitle2">Project Admin</Typography>
+                                            <Typography variant="subtitle2">Admin Role: {userData.data.role}</Typography>
                                         </Stack>
                                      
                                         <Divider />

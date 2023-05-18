@@ -48,65 +48,47 @@ export default function AddTermsAndConditions() {
         <AddIcon color="primary" />
       </IconButton>
       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <Grid item xs={12} sm={12}>
-          <Grid container direction="flex" spacing={10} sx={{ padding: 5 }}>
-            <Grid item>
-              <MuiTypography variant="button" display="block" gutterBottom>
-                <Typography variant="h3" sx={{ margin: 2 }}>
-                  Add New terms and conditions
-                </Typography>
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 1, width: '52ch' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField id="title" label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-                </Box>
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m: 1, width: '52ch' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    id="description"
-                    label="Description"
-                    type="text"
-                    autoComplete="current-password"
-                    multiline
-                    rows={4}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Box>
-                {/* <input
-                  id='file'
-                  type='file'
-                  value={file}
-                  onChange={(e) => setFile(e.target.value)}
-                /> */}
-
-                <Button
-                  variant="contained"
-                  sx={{
-                    marginTop: '20px',
-                    marginLeft: '150px',
-                    width: '150px',
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Add New Terms
-                </Button>
-              </MuiTypography>
-            </Grid>
+        <Grid container direction="column" spacing={2} sx={{ padding: 2 }}>
+          <Grid item xs={12}>
+            <Typography variant="h3" sx={{ marginBottom: 2 }}>
+              Add New Terms and Conditions
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Box component="form" sx={{ '& .MuiTextField-root': { mb: 2 } }} noValidate autoComplete="off">
+              <TextField id="title" label="Title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Box component="form" sx={{ '& .MuiTextField-root': { mb: 2 } }} noValidate autoComplete="off">
+              <TextField
+                id="description"
+                label="Description"
+                type="text"
+                autoComplete="current-password"
+                multiline
+                rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                fullWidth
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              sx={{
+                marginTop: '20px',
+                width: '100%',
+              }}
+              onClick={handleSubmit}
+            >
+              Add New Terms
+            </Button>
           </Grid>
         </Grid>
       </Dialog>
+
     </div>
   );
 }

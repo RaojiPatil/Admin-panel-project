@@ -17,7 +17,7 @@ import { Divider } from '@mui/material';
 // ===============================|| UI COLOR ||=============================== //
 
 const UIColor = () => (
-    <MainCard title="CLUB DATA" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
+    <MainCard title="Manager-panel" secondary={<SecondaryAction link="https://next.material-ui.com/system/typography/" />}>
     <Grid container spacing={gridSpacing}>
         <Grid item xs={12} sm={6}>
             <SubCard title="Club">

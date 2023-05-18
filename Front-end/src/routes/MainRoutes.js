@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { isUserLoggedIn } from 'comman/comman';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
@@ -7,10 +8,11 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/Admin/index')));
 const UserDetails = Loadable(lazy(() => import('views/pages/Account_setting/index')));
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
+const SuperAdmin = Loadable(lazy(() => import('views/utilities/Super_admin')));
+const ManagerData = Loadable(lazy(() => import('views/utilities/Manager_data')));
+const AgenyData = Loadable(lazy(() => import('views/utilities/Agent_data')));
 const AccountSetting = Loadable(lazy(() => import('views/utilities/Account_setting')));
-const UserProfile = Loadable(lazy(() => import('views/utilities/User_profile')));
+const UserProfile = Loadable(lazy(() => import('views/utilities/TermsData')));
 const UserProfileData = Loadable(lazy(() => import('views/utilities/TermsDataView')));
 
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
@@ -43,8 +45,8 @@ const MainRoutes = {
             path: 'utils',
             children: [
                 {
-                    path: 'util-typography',
-                    element: <UtilsTypography />
+                    path: 'util-superadmin',
+                    element: <SuperAdmin />
                 }
             ]
         },
@@ -52,8 +54,17 @@ const MainRoutes = {
             path: 'utils',
             children: [
                 {
-                    path: 'util-color',
-                    element: <UtilsColor />
+                    path: 'util-manager',
+                    element: <ManagerData />
+                }
+            ]
+        },
+        {
+            path: 'utils',
+            children: [
+                {
+                    path: 'util-agent',
+                    element: <AgenyData />
                 }
             ]
         },

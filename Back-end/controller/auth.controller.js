@@ -15,6 +15,7 @@ const handlebars = require('handlebars');
 const path = require('path');
 const cron = require('node-cron')
 const multer = require('multer');
+const CryptoJS = require("crypto-js");
 
 module.exports.registration = async (req, res) => {
   try {
@@ -265,6 +266,7 @@ module.exports.changePassword = async (req, res) => {
 };
 
 const Terms = require('../models/Terms_Conditions');
+// all terms and conditions Api's
 
 module.exports.addNewTermsAndCondData = async (req, res) => {
   try {
@@ -313,6 +315,41 @@ module.exports.getAllData = async (req, res) => {
     });
   }
 };
+
+// encryption APis
+
+// module.exports.getAllData = async (req, res) => {
+//   try {
+//     const data = await Terms.find();
+
+//     // Encrypt the data
+//     const encryptionKey = crypto.randomBytes(32);
+//     const iv = crypto.randomBytes(16);
+//     const cipher = crypto.createCipheriv('aes-256-cbc', encryptionKey, iv);
+//     let encryptedData = cipher.update(JSON.stringify(data), 'utf8', 'hex');
+//     encryptedData += cipher.final('hex');
+
+//     // Prepare the encrypted response
+//     const encryptedResponse = {
+//       encryptedData,
+//       encryptionKey: encryptionKey.toString('hex'),
+//       iv: iv.toString('hex'),
+//     };
+
+//     res.status(200).send({
+//       message: 'Encrypted data retrieved successfully',
+//       status: 200,
+//       data: encryptedResponse,
+//     });
+//   } catch (e) {
+//     console.error(e);
+//     res.status(500).send({
+//       message: 'Server error',
+//       status: 500,
+//       error: e.message,
+//     });
+//   }
+// };
 
 
 module.exports.deleteTerm = async (req, res) => {
@@ -396,10 +433,7 @@ module.exports.updateTermsAndCondData = async (req, res) => {
 
 
 
-
-// Example API endpoint for file upload
 module.exports.uploadfile = async (req, res) => {
-// app.post('/api/upload', upload.single('file'), (req, res, next) => {
   try {
     // Access the uploaded file using req.file
     // You can then save the file to the database or perform other operations on it
@@ -421,8 +455,52 @@ module.exports.uploadfile = async (req, res) => {
 };
 
 
+const Agent = require('../models/Agent_panel');
 
-// Set up middleware to handle file uploads
-// app.post('/upload', upload.single('file'), (req, res) => {
-//   res.send('File uploaded successfully');
-// });
+module.exports.addNewAgent = async (req, res) => {
+  try {
+    const newData = new Agent({
+      // Extract the required data from the request body and create a new document with it
+      Name: req.body.Name,
+      Email: req.body.Email,
+      Mobile: req.body.Mobile,
+      // add any other fields you need here
+    });
+
+    // Save the new document to the database
+    const result = await newData.save();
+
+    res.status(201).send({
+      message: 'New Agent added successfully',
+      status: 201,
+      data: result,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+
+module.exports.getAgentData = async (req, res) => {
+  try {
+    const data = await Agent.find();
+
+    res.status(200).send({
+      message: 'Data loaded successfully',
+      status: 200,
+      data: data,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send({
+      message: 'Server error',
+      status: 500,
+      error: e.message,
+    });
+  }
+};
+

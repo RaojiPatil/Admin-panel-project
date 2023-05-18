@@ -37,6 +37,8 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -54,6 +56,7 @@ const FirebaseRegister = ({ ...others }) => {
     const [lname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
     const [users, setUsers] = useState([]);
     const navigation = useNavigate();
 
@@ -77,7 +80,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     const handleSubmit1 = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:5000/signUp', { name, email, password })
+        axios.post('http://localhost:5000/signUp', { name, email, password, role })
           .then(response => {
             setUsers([...users, response.data]);
             window.alert('Registration successful');
@@ -86,6 +89,7 @@ const FirebaseRegister = ({ ...others }) => {
             setLastName('');
             setEmail('');
             setPassword('');
+            setRole('');
           })
           .catch(error => {
             // Registration failed, user already exists
@@ -255,6 +259,22 @@ const FirebaseRegister = ({ ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
+                        <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={role}
+                                label="Role"
+                                onChange={(e) => setRole(e.target.value)}
+                                >
+                                <MenuItem value={'Agent'}>Agent</MenuItem>
+                                <MenuItem value={'Manager'}>Manager</MenuItem>
+                                <MenuItem value={'Super-Admin'}>Super-admin</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
 
                         {strength !== 0 && (
                             <FormControl fullWidth>

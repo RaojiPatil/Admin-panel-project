@@ -21,6 +21,8 @@ import AddTermsAndConditions from './Add_TermsConditions';
 import UpdateTermsAndConditions from './Update_terms_Coindition';
 import { Pagination } from '@mui/material';
 import ViewData from './TermsDataView';
+import { display } from '@mui/system';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 
 const UserProfile = () => {
@@ -32,7 +34,8 @@ const UserProfile = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-
+  const theme = useTheme();
+  
   const handleUpdate = (row) => {
     setOpen(true)
     setUpdateRow(row);
@@ -93,56 +96,86 @@ const UserProfile = () => {
     setRowsPerPage(parseInt(event.target.value, 5));
     setPage(0);
   };
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 
   return (
     <MainCard title="Terms & conditions" secondary={<AddTermsAndConditions/>}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Actions</TableCell>
+  <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
+    <Table sx={{ minWidth: 320 }} aria-label="simple table">
+      <TableHead>
+        <TableRow>
+          <TableCell>Title</TableCell>
+          <TableCell align="center">Description</TableCell>
+          <TableCell align="center">Actions</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((row) => (
+            <TableRow
+              key={row._id}
+              sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+              }}
+            >
+              <TableCell component="th" scope="row">
+                {row.title}
+              </TableCell>
+              <TableCell align="center">{row.description}</TableCell>
+              <TableCell align="center" sx={isMobile ? { display: 'flex' } : {}}>
+                <IconButton
+                  aria-label="view"
+                  color="secondary"
+                  onClick={() => handleView(row._id)}
+                >
+                  <Visibility />
+                </IconButton>
+                <IconButton
+                  aria-label="edit"
+                  color="primary"
+                  onClick={() => handleUpdate(row)}
+                >
+                  <Edit color="primary" />
+                </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  color="secondary"
+                  onClick={() => handleDeleteData(row._id)}
+                >
+                  <Delete />
+                </IconButton>
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((row) => (
-            <TableRow key={row._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell component="th" scope="row">{row.title}</TableCell>
-            <TableCell align="center">{row.description}</TableCell>
-            <TableCell align="center">
-              <IconButton aria-label="view" color="secondary" onClick={() => handleView(row._id)}>
-                <Visibility />
-              </IconButton>
-              <IconButton aria-label="edit" color="primary" onClick={() => handleUpdate(row)}>
-                <Edit color="primary" />
-              </IconButton>
-              <IconButton aria-label="delete" color="secondary" onClick={() => handleDeleteData(row._id)}>
-                <Delete />
-              </IconButton>
-            </TableCell>
-          </TableRow>
-        ))}
+          ))}
       </TableBody>
     </Table>
-    <Box sx={{ marginTop: 2, alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-      <Pagination
-        count={Math.ceil(rows.length / itemsPerPage)}
-        page={page}
-        onChange={handleChangePage}
-        shape="rounded"
-      />
-    </Box>
-    {updateRow && (
-      <UpdateTermsAndConditions
-        userid={updateRow}
-        open={true}
-        setOpen={setUpdateRow}
-      />
-    )}
   </TableContainer>
-</MainCard>
+  <Box
+    sx={{
+      marginTop: 2,
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+    }}
+  >
+    <Pagination
+      count={Math.ceil(rows.length / itemsPerPage)}
+      page={page}
+      onChange={handleChangePage}
+      shape="rounded"
+    />
+  </Box>
+  {updateRow && (
+    <UpdateTermsAndConditions
+      userid={updateRow}
+      open={true}
+      setOpen={setUpdateRow}
+    />
+  )}
+    </MainCard>
+
 );
 };
 
